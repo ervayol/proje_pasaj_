@@ -1,58 +1,61 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useFavorites } from "@/context/FavoritesContext";
+import { products } from "@/data/products";
 
-const products = [
-  {
-    id: "sac-kurutma-makinesi",
-    name: "Saç Kurutma Makinesi",
-    price: "1.500 TL",
-    image: "https://ffo3gv1cf3ir.merlincdn.net//SiteAssets/pasaj/crop/cg/00R844/2025141443-00R844-1/2025141443-00R844-1_600x450.png?1757850864000",
-  },
-  {
-    id: "laptop",
-    name: "Laptop",
-    price: "46.400 TL",
-    image: "https://ffo3gv1cf3ir.merlincdn.net//SiteAssets/pasaj/crop/cg/00TIU6/20256181710-00TIU6-1/20256181710-00TIU6-1_600x450.png?1757850864000",
-  },
-  {
-    id: "airpods",
-    name: "AirPods",
-    price: "12.199 TL",
-    image: "https://ffo3gv1cf3ir.merlincdn.net//SiteAssets/Cihaz/aksesuar/Apple/airpods-pro/cg/1/1_600x450.png?1757850864000",
-  },
-  {
-    id: "supurge",
-    name: "Dikey Süpürge",
-    price: "19.999 TL",
-    image: "https://ffo3gv1cf3ir.merlincdn.net//SiteAssets/pasaj/crop/cg/00QJEG/202411131621-00QJEG-1/202411131621-00QJEG-1_600x450.png?1757850864000",
-  },
-];
 export default function BestOffers() {
+  const { toggleFavorite, isFavorite } = useFavorites();
   return (
     <section className="max-w-7xl mx-auto px-4 mt-10">
       <h2 className="text-xl font-semibold mb-6">En İyi Teklifler</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+
+      {/* Scrollable ürün listesi */}
+      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
         {products.map((p) => (
-          <Link
+          <div
             key={p.id}
-            href={`/product/${p.id}`}
-            className="group border rounded-lg overflow-hidden shadow hover:shadow-lg transition bg-white"
+            className="min-w-[220px] max-w-[220px] bg-white border rounded-lg shadow hover:shadow-lg transition relative"
           >
-            <div className="relative w-full h-40">
-              <Image
-                src={p.image}
-                alt={p.name}
-                fill
-                className="object-cover"
-              />
-            </div>
+            {/* Favori kalbi */}
+            <button
+              onClick={() => toggleFavorite(p)}
+              className="absolute top-2 right-2 text-gray-400 hover:text-orange-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill={isFavorite(p.id) ? "orange" : "none"}
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-7.682a4.5 4.5 0 010-6.364z"
+                />
+              </svg>
+            </button>
+             {/* Ürün resmi */}
+            <Link href={`/product/${p.id}`}>
+              <div className="relative w-full h-40">
+                <Image
+                  src={p.image}
+                  alt={p.name}
+                  fill
+                  className="object-contain p-4"
+                />
+              </div>
+            </Link>
+
+            {/* Ürün bilgileri */}
             <div className="p-3">
-              <h3 className="text-sm font-medium text-gray-800 group-hover:text-blue-600">
+              <h3 className="text-sm font-medium text-gray-800 line-clamp-2">
                 {p.name}
               </h3>
-              <p className="text-blue-600 font-semibold">{p.price}</p>
+              <p className="text-blue-600 font-semibold mt-1">{p.price}</p>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </section>

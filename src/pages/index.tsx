@@ -20,6 +20,8 @@ import SonIncelenenler from "@/components/sections/SonIncelenenler";
 import NedenPasaj from "@/components/sections/NedenPasaj";
 import PopularBrands from "@/components/sections/PopularBrands";
 import PromoBanner from "@/components/layout/PromoBanner";
+import Kampanyalar from "@/components/sections/Kampanyalar";
+
 
 export default function Home() {
   return (
@@ -29,6 +31,7 @@ export default function Home() {
         <PopularCategories/>
         <PromoBanner/>
         <BestOffers/>
+        <Kampanyalar/>
         <BestSellers/>
         <PopularBrands/>
         <KacirilmayacakFirsatlar/>

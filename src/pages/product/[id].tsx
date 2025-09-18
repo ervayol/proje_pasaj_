@@ -97,29 +97,52 @@ export default function ProductDetailPage() {
 import { useRouter } from "next/router";
 import RootLayout from "@/components/layout/RootLayout";
 import { products } from "@/data/products";
+import Image from "next/image";
 
 export default function ProductPage() {
   const router = useRouter();
   const { id } = router.query;
 
-  const product = products.find((p) => p.id === Number(id));
+  const product = products.find((p) => p.id === id); // ✅ artık string kontrolü
 
   if (!product) {
     return (
       <RootLayout>
-        <main className="p-6">
-          <p>Ürün bulunamadı.</p>
+        <main className="max-w-7xl mx-auto px-4 py-10">
+          <p className="text-gray-600">Ürün bulunamadı.</p>
         </main>
       </RootLayout>
     );
   }
-   return (
+
+  return (
     <RootLayout>
-      <main className="p-6">
-        <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-        <p className="text-gray-600 mb-4">{product.description}</p>
-        <p className="text-lg font-semibold">Kategori: {product.category}</p>
-        <p className="text-xl font-bold mt-2">{product.price} TL</p>
+      <main className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+        {/* Sol taraf - Görsel */}
+        <div className="relative w-full h-[400px] bg-gray-50 rounded-lg overflow-hidden">
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            className="object-contain"
+          />
+        </div>
+
+        {/* Sağ taraf - Bilgiler */}
+        <div className="flex flex-col justify-start">
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">
+            {product.name}
+          </h1>
+          <p className="text-gray-600 mb-6">{product.description}</p>
+          <p className="text-sm text-gray-500">Kategori: {product.category}</p>
+          <p className="text-3xl font-bold text-blue-600 mt-4">
+            {product.price}
+          </p>
+
+          <button className="mt-6 bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg shadow">
+            Sepete Ekle
+          </button>
+        </div>
       </main>
     </RootLayout>
   );
