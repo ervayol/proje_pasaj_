@@ -93,7 +93,7 @@ export default function ProductDetailPage() {
   );
 }
 */
-
+/*
 import { useRouter } from "next/router";
 import RootLayout from "@/components/layout/RootLayout";
 import { products } from "@/data/products";
@@ -104,6 +104,74 @@ export default function ProductPage() {
   const { id } = router.query;
 
   const product = products.find((p) => p.id === id); // ✅ artık string kontrolü
+
+  if (!product) {
+    return (
+      <RootLayout>
+        <main className="max-w-7xl mx-auto px-4 py-10">
+          <p className="text-gray-600">Ürün bulunamadı.</p>
+        </main>
+      </RootLayout>
+    );
+  }
+
+  return (
+    <RootLayout>
+      <main className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+        {/* Sol taraf - Görsel *-/}
+        <div className="relative w-full h-[400px] bg-gray-50 rounded-lg overflow-hidden">
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            className="object-contain"
+          />
+        </div>
+
+        {/* Sağ taraf - Bilgiler *-/}
+        <div className="flex flex-col justify-start">
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">
+            {product.name}
+          </h1>
+          <p className="text-gray-600 mb-6">{product.description}</p>
+          <p className="text-sm text-gray-500">Kategori: {product.category}</p>
+          <p className="text-3xl font-bold text-blue-600 mt-4">
+            {product.price}
+          </p>
+
+          <button className="mt-6 bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg shadow">
+            Sepete Ekle
+          </button>
+        </div>
+      </main>
+    </RootLayout>
+  );
+}
+*/
+
+import { useRouter } from "next/router";
+import RootLayout from "@/components/layout/RootLayout";
+import { products } from "@/data/products";
+import Image from "next/image";
+import { useEffect } from "react";
+import { addToRecentlyViewed } from "@/components/sections/SonIncelenenler";
+
+export default function ProductPage() {
+  const router = useRouter();
+  const { id } = router.query;
+
+  const product = products.find((p) => p.id === id);
+
+  // ✅ Ürün bulunduysa localStorage’a ekle
+  useEffect(() => {
+    if (product) {
+      addToRecentlyViewed({
+        id: product.id,
+        name: product.name,
+        image: product.image,
+      });
+    }
+  }, [product]);
 
   if (!product) {
     return (

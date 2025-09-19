@@ -89,25 +89,25 @@ export const products: Product[] = [
     name: "iPhone 14",
     category: "Cep Telefonu-Aksesuar",
     description: "Apple iPhone 14 akıllı telefon.",
-    price: "35.000 TL",
+    price: "52.000 TL",
     image:
-      "https://ffo3gv1cf3ir.merlincdn.net/SiteAssets/pasaj/crop/cg/1698389193419/1698389198282/1698389198282_250x188.png?1758112274000",
+      "https://ffo3gv1cf3ir.merlincdn.net//SiteAssets/pasaj/crop/cg/1698403918712/1698403923878/1698403923878_600x450.png?1757850864000",
   },
   {
-    id: "2",
+    id: "3",
     name: "iPad Pro",
     category: "Bilgisayar-Tablet",
     description: "Apple iPad Pro 11 inç tablet.",
-    price: "25.000 TL",
+    price: "46.948 TL",
     image:
       "https://ffo3gv1cf3ir.merlincdn.net/SiteAssets/pasaj/crop/cg/00CLCP/3-1667297803421/3-1667297803421_250x188.png?1758112274000",
   },
   {
-    id: "3",
+    id: "4",
     name: "MacBook Air",
     category: "Bilgisayar-Tablet",
     description: "Apple M1 MacBook Air.",
-    price: "45.000 TL",
+    price: "64.999 TL",
     image:
       "https://ffo3gv1cf3ir.merlincdn.net/SiteAssets/pasaj/crop/cg/00PTYO/20249272219-00PTYO-1/20249272219-00PTYO-1_250x188.png?1758112274000",
   },
@@ -152,7 +152,7 @@ export const products: Product[] = [
     name: "Samsung Galaxy S23 Ultra",
     category: "Cep Telefonu-Aksesuar",
     description: "Samsung’un en yeni amiral gemisi akıllı telefonu.",
-    price: "52.000 TL",
+    price: "64.999 TL",
     image:
       "https://ffo3gv1cf3ir.merlincdn.net//SiteAssets/pasaj/crop/cg/00FIN9/4-1674912039376/4-1674912039376_600x450.png?1757850864000",
   },
@@ -161,7 +161,7 @@ export const products: Product[] = [
     name: "Tıraş Makinesi",
     category: "Sağlık-Kişisel Bakım",
     description: "Konforlu kullanım için geliştirilmiş tıraş makinesi.",
-    price: "3.200 TL",
+    price: "998 TL",
     image:
       "https://ffo3gv1cf3ir.merlincdn.net//SiteAssets/pasaj/crop/cg/00HIGU/00HIGU-1/00HIGU-1_600x450.png?1757850864000",
   },
@@ -170,7 +170,7 @@ export const products: Product[] = [
     name: "Şarjlı Diş Fırçası",
     category: "Sağlık-Kişisel Bakım",
     description: "Daha sağlıklı dişler için şarjlı diş fırçası.",
-    price: "1.800 TL",
+    price: "12.699 TL",
     image:
       "https://ffo3gv1cf3ir.merlincdn.net//SiteAssets/pasaj/crop/cg/DE/1-1669637368706/1-1669637368706_600x450.png?1757850864000",
   },
@@ -179,7 +179,7 @@ export const products: Product[] = [
     name: "Ateş Ölçer",
     category: "Sağlık-Kişisel Bakım",
     description: "Temassız dijital ateş ölçer.",
-    price: "950 TL",
+    price: "259 TL",
     image:
       "https://ffo3gv1cf3ir.merlincdn.net//SiteAssets/pasaj/crop/cg/00CCZM/1-1665985984708/1-1665985984708_600x450.png?1757850864000",
   },
