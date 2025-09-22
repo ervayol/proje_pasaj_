@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 
 
 import React, { useState } from "react";
@@ -29,7 +29,7 @@ export default function LoginModal({ open, onClose }: Props) {
         // Simulate login request (replace with real API)
         setTimeout(() => {
             setLoading(false);
-            alert("Giriş başarılı (simülasyon)");
+            alert("Giriş başarılı ");
             onClose();
         }, 800);
     }
@@ -81,4 +81,110 @@ export default function LoginModal({ open, onClose }: Props) {
             </div>
         </div>
     );
+}*/
+
+"use client";
+
+import React, { useState } from "react";
+import { login } from "@/lib/auth";
+
+type Props = {
+  open: boolean;
+  onClose: () => void;
+  onLoginSuccess: (username: string) => void;
+};
+
+export default function LoginModal({ open, onClose, onLoginSuccess }: Props) {
+  const [username, setUsername] = useState("");
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  if (!open) return null;
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!username || !identifier || !password) {
+      alert("Lütfen tüm alanları doldurun.");
+      return;
+    }
+    setLoading(true);
+
+    setTimeout(() => {
+      const user = login(username, identifier, password);
+      setLoading(false);
+      if (user) {
+        onLoginSuccess(user.username);
+        onClose();
+      } else {
+        alert("Bilgiler hatalı!");
+      }
+    }, 600);
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+
+      <div className="relative bg-white rounded-md shadow-lg w-full max-w-md p-6 z-10">
+        <h3 className="text-lg font-semibold mb-4">Giriş Yap</h3>
+
+        <form onSubmit={submit} className="space-y-3">
+          <input
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Kullanıcı Adı"
+            className="w-full border rounded px-3 py-2"
+          />
+          <input
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
+            placeholder="Telefon numarası veya e-posta"
+            className="w-full border rounded px-3 py-2"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Parola"
+            className="w-full border rounded px-3 py-2"
+          />
+
+          <div className="flex items-center justify-between gap-2">
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              disabled={loading}
+            >
+              {loading ? "Giriş yapılıyor..." : "Giriş Yap"}
+            </button>
+
+            <button
+              type="button"
+              className="text-sm text-gray-500"
+              onClick={() =>
+                alert("Şifre sıfırlama akışı (simülasyon).")
+              }
+            >
+              Şifremi unuttum
+            </button>
+          </div>
+        </form>
+
+        <button
+          aria-label="kapat"
+          onClick={onClose}
+          className="absolute top-3 right-3 text-gray-400 hover:text-gray-700"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+  );
 }
+/*   ben o kişi giriş bilgisi vererek verdiğim örneği sadece örnek olarak verdim açıklarken.
+ yani benim bilgilerim onlar değil yada başka kullanıcılar da girebilir farklı kullanıcı adları ile.
+  ben mesela başka bir kullanıcı adı ile girmeyi denedim hata verdi öyle olmasın.  
+  ve ben çıkış yapacağım zaman demiştim ki butona basayım ve bana çıkış yap yazılı bir kısım gelsin önüme
+   ama gelmiyor kategoriler navbar ının  altında kalıyor. onu da düzelt lütfen bana kodların düzenlenmiş halini 
+   tam şekilde at.*/ 
