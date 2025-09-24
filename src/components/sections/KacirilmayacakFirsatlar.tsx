@@ -69,7 +69,7 @@ export default function KacirilmayacakFirsatlar() {
 }
     */
 
-"use client"; // 🔥 Bu satır hatayı çözüyor
+"use client"; 
 
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";

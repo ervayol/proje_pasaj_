@@ -63,6 +63,8 @@ export default function BestOffers() {
   );
 }
   */
+
+/*
  import Image from "next/image";
 import Link from "next/link";
 import { useFavorites } from "@/context/FavoritesContext";
@@ -74,14 +76,14 @@ export default function BestOffers() {
     <section className="max-w-7xl mx-auto px-4 mt-10">
       <h2 className="text-xl font-semibold mb-6">En İyi Teklifler</h2>
 
-      {/* Scrollable ürün listesi */}
+      {/* Scrollable ürün listesi *-/}
       <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
         {products.map((p) => (
           <div
             key={p.id}
             className="min-w-[220px] max-w-[220px] bg-white border rounded-lg shadow hover:shadow-lg transition relative"
           >
-            {/* Favori kalbi */}
+            {/* Favori kalbi *-/}
             <button
               onClick={(e) => {
                 e.stopPropagation(); // Link tetiklenmesin
@@ -106,7 +108,7 @@ export default function BestOffers() {
               </svg>
             </button>
 
-            {/* Ürün resmi */}
+            {/* Ürün resmi *-/}
             <Link href={`/product/${p.id}`}>
               <div className="relative w-full h-40">
                 <Image
@@ -118,7 +120,7 @@ export default function BestOffers() {
               </div>
             </Link>
 
-            {/* Ürün bilgileri */}
+            {/* Ürün bilgileri *-/}
             <div className="p-3">
               <h3 className="text-sm font-medium text-gray-800 line-clamp-2">
                 {p.name}
@@ -126,6 +128,24 @@ export default function BestOffers() {
               <p className="text-blue-600 font-semibold mt-1">{p.price}</p>
             </div>
           </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+*/
+import { products } from "@/data/products";
+import ProductCard from "@/components/ProductCard";
+
+export default function BestOffers() {
+  return (
+    <section className="max-w-7xl mx-auto px-4 mt-10">
+      <h2 className="text-xl font-semibold mb-6 m-p-section_title ">En İyi Teklifler</h2>
+
+      {/* Scrollable ürün listesi */}
+      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+        {products.map((p) => (
+          <ProductCard key={p.id} product={p} />
         ))}
       </div>
     </section>

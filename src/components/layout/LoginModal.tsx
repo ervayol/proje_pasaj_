@@ -117,7 +117,7 @@ export default function LoginModal({ open, onClose, onLoginSuccess }: Props) {
         onLoginSuccess(user.username);
         onClose();
       } else {
-        alert("Bilgiler hatalı!");
+        alert("Giriş başarısız!");
       }
     }, 600);
   }
@@ -182,9 +182,3 @@ export default function LoginModal({ open, onClose, onLoginSuccess }: Props) {
     </div>
   );
 }
-/*   ben o kişi giriş bilgisi vererek verdiğim örneği sadece örnek olarak verdim açıklarken.
- yani benim bilgilerim onlar değil yada başka kullanıcılar da girebilir farklı kullanıcı adları ile.
-  ben mesela başka bir kullanıcı adı ile girmeyi denedim hata verdi öyle olmasın.  
-  ve ben çıkış yapacağım zaman demiştim ki butona basayım ve bana çıkış yap yazılı bir kısım gelsin önüme
-   ama gelmiyor kategoriler navbar ının  altında kalıyor. onu da düzelt lütfen bana kodların düzenlenmiş halini 
-   tam şekilde at.*/ 

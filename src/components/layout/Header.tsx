@@ -390,19 +390,15 @@ export default function Header() {
   const [currentUser, setCurrentUser] = useState<string | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
-  useEffect(() => {
-    setCartCount(getCartCount());
-    const saved = getCurrentUser();
-    if (saved) setCurrentUser(saved.username);
-
-    const onStorage = () => {
-      setCartCount(getCartCount());
-    };
-    window.addEventListener("storage", onStorage);
-    return () => {
-      window.removeEventListener("storage", onStorage);
-    };
-  }, []);
+  const topLinks = [
+    "Kampanyalar",
+    "Yardım",
+    "Neden Pasaj",
+    "Pasaj Blog",
+    "Sipariş Sorgulama",
+    "Markalar",
+    "Favoriler",
+  ];
 
   const categories = [
     "Cep Telefonu - Aksesuar",
@@ -414,9 +410,36 @@ export default function Header() {
     "Ev - Yaşam",
   ];
 
+  const categorySuggestions: Record<string, string[]> = {
+    "Cep Telefonu - Aksesuar": ["iPhone 17", "Galaxy S24", "Kılıf", "Powerbank"],
+    "Bilgisayar - Tablet": ["MacBook Pro", "iPad Air", "Mouse", "Klavye"],
+    "Elektrikli Ev Aletleri": ["Dyson Süpürge", "Airfryer", "Kahve Makinesi"],
+    "Sağlık - Kişisel Bakım": ["Saç Kurutma", "Tıraş Makinesi", "Diş Fırçası"],
+    "Hobi - Oyun": ["PS5", "XBox Controller", "Lego Seti"],
+    "TV - Ses Sistemleri": ["OLED TV", "Soundbar", "Hoparlör"],
+    "Ev - Yaşam": ["Masa Lambası", "Yorgan", "Ofis Sandalyesi"],
+  };
+
+  useEffect(() => {
+    setCartCount(getCartCount());
+    const saved = getCurrentUser();
+    if (saved) setCurrentUser(saved.username);
+
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === null || e.key === "pasaj_cart") {
+        setCartCount(getCartCount());
+      }
+    };
+
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
+
   return (
     <header className="w-full sticky top-0 z-40 bg-white">
-      {/* Top bar */}
+      {/* Top mini bar */}
       <div className="bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 flex items-center text-xs py-2 text-gray-600">
           <a
@@ -432,6 +455,22 @@ export default function Header() {
             />
             <span>turkcell.com.tr</span>
           </a>
+
+          <nav className="hidden sm:flex gap-3 ml-6">
+            {topLinks.map((t) => (
+              <Link
+                key={t}
+                href={t === "Favoriler" ? "/favorites" : "#"}
+                className="hover:text-blue-600"
+              >
+                {t}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="ml-auto hidden sm:block">
+            Türkiye'nin dijital pazarı
+          </div>
         </div>
       </div>
 
@@ -448,12 +487,12 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Search */}
+        {/* Search bar */}
         <div className="flex-1 mx-10">
           <SearchBar />
         </div>
 
-        {/* Actions */}
+        {/* Right actions */}
         <div className="flex items-center gap-6 relative">
           {!currentUser ? (
             <button
@@ -464,7 +503,7 @@ export default function Header() {
               <span>Giriş Yap</span>
             </button>
           ) : (
-            <div className="relative">
+            <div className="relative z-50">
               <button
                 onClick={() => setUserMenuOpen((prev) => !prev)}
                 className="flex items-center gap-2 text-gray-700 border border-gray-400 px-5 py-3 rounded-md hover:border-blue-600 hover:text-blue-600 text-lg"
@@ -474,7 +513,7 @@ export default function Header() {
               </button>
 
               {userMenuOpen && (
-                <div className="absolute right-0 mt-2 bg-white border rounded shadow p-2 w-40">
+                <div className="absolute right-0 mt-2 bg-white border rounded shadow p-2 w-40 z-50">
                   <button
                     onClick={() => {
                       logout();
@@ -505,15 +544,33 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Categories */}
+      {/* Category navigation */}
       <nav className="bg-white relative">
         <div className="max-w-7xl mx-auto px-4 overflow-x-auto">
           <ul className="flex gap-6 py-4 whitespace-nowrap text-base">
             {categories.map((cat) => (
-              <li key={cat}>
+              <li
+                key={cat}
+                onMouseEnter={() => setHoveredCat(cat)}
+                onMouseLeave={() => setHoveredCat(null)}
+                className="relative"
+              >
                 <a href="#" className="text-gray-700 hover:text-blue-600">
                   {cat}
                 </a>
+
+                {hoveredCat === cat && categorySuggestions[cat] && (
+                  <ul className="absolute left-0 mt-2 bg-white border rounded-md shadow-lg z-50 text-sm w-56">
+                    {categorySuggestions[cat].map((item, i) => (
+                      <li
+                        key={i}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>

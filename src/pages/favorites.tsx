@@ -49,6 +49,9 @@ export default function FavoritesPage() {
   );
 }
   */
+
+
+/*
  "use client";
 
 import RootLayout from "@/components/layout/RootLayout";
@@ -113,3 +116,70 @@ export default function FavoritesPage() {
   );
 }
 
+*/
+
+
+// ********ürün gösterimi değiştirilmiş Hali en son satır hata veriyor *******
+// src/pages/favorities.tsx
+/*
+"use client";
+
+import RootLayout from "@/components/layout/RootLayout";
+import { useFavorites } from "@/context/FavoritesContext";
+import ProductCard from "@/components/ProductCard";
+
+export default function FavoritesPage() {
+  const { favorites } = useFavorites();
+
+  return (
+    <RootLayout>
+      <main className="max-w-7xl mx-auto px-4 py-10">
+        <h2 className="text-2xl font-semibold mb-6">Favorilerim</h2>
+
+        {favorites.length === 0 ? (
+          <p className="text-gray-600">Henüz favori ürününüz yok.</p>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+            {favorites.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        )}
+      </main>
+    </RootLayout>
+  );
+}
+*/
+/**Bunda hiç hata veren yok ürün bloğu yeni hali  */
+"use client";
+
+import RootLayout from "@/components/layout/RootLayout";
+import { useFavorites } from "@/context/FavoritesContext";
+import ProductCard from "@/components/ProductCard";
+import { Product } from "@/data/products";
+
+export default function FavoritesPage() {
+  const { favorites } = useFavorites();
+
+  // favorites kaynağı her zaman Product[] tipinde olmayabilir (context tipi eksikse),
+  // bu cast ile TypeScript uyarısını kaldırıyoruz — runtime davranışı değişmiyor.
+  const favList = (favorites ?? []) as Product[];
+
+  return (
+    <RootLayout>
+      <main className="max-w-7xl mx-auto px-4 py-10">
+        <h2 className="text-2xl font-semibold mb-6">Favorilerim</h2>
+
+        {favList.length === 0 ? (
+          <p className="text-gray-600">Henüz favori ürününüz yok.</p>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+            {favList.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        )}
+      </main>
+    </RootLayout>
+  );
+}

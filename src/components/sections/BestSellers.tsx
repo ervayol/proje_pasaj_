@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -16,7 +16,7 @@ interface Product {
 /**
  * Ürün listesi: BestSellers + BestOffers (isteğine göre kategorilere dağıtıldı).
  * (id'ler string; FavoritesContext ile uyumlu.)
- */
+ *-/
 const products: Product[] = [
   // BestSellers (senden gelenler)
   {
@@ -58,7 +58,7 @@ const products: Product[] = [
     price: "1.500 TL",
     image:
       "https://ffo3gv1cf3ir.merlincdn.net//SiteAssets/pasaj/crop/cg/00R844/2025141443-00R844-1/2025141443-00R844-1_600x450.png?1757850864000",
-  },*/
+  },*-/
   {
     id: "6",
     name: "Tıraş Makinesi",
@@ -164,7 +164,7 @@ export default function BestSellers() {
     <section className="max-w-7xl mx-auto px-4 mt-12">
       <h2 className="text-2xl font-bold mb-6">En Çok Satanlar</h2>
 
-      {/* Kategori satırı */}
+      {/* Kategori satırı *-/}
       <div className="flex gap-4 mb-6 overflow-x-auto">
         {categories.map((cat) => {
           const active = activeCategory === cat.name;
@@ -178,7 +178,7 @@ export default function BestSellers() {
                   : "text-gray-700 hover:text-orange-500"
               }`}
             >
-              {/* Tümü'de ikon gösterme */}
+              {/* Tümü'de ikon gösterme *-/}
               {cat.name !== "Tümü" && cat.icon && (
                 // küçük ikon, yuvarlak çerçeve YOK (istediğin gibi)
                 // next/image yerine <img> kullanıyorum; istersen Image ile değiştirebilirsin
@@ -190,14 +190,14 @@ export default function BestSellers() {
         })}
       </div>
 
-      {/* Ürünler grid */}
+      {/* Ürünler grid *-/}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
         {filteredProducts.map((p) => (
           <div
             key={p.id}
             className="relative bg-white border rounded-lg p-3 shadow-sm hover:shadow-md hover:border-orange-500 transition"
           >
-            {/* Favori butonu (kalp) */}
+            {/* Favori butonu (kalp) *-/}
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -222,7 +222,7 @@ export default function BestSellers() {
               </svg>
             </button>
 
-            {/* Link çevresi: görsel + metin */}
+            {/* Link çevresi: görsel + metin *-/}
             <Link href={`/product/${p.id}`} className="block">
               <div className="h-40 flex items-center justify-center mb-3 bg-gray-50 rounded-md overflow-hidden">
                 <Image
@@ -243,3 +243,102 @@ export default function BestSellers() {
     </section>
   );
 }
+*/
+
+
+// src/components/sections/BestSellers.tsx--- ÜRÜN BLOĞU YENİ + FİLTRELEME VAR 
+"use client";
+
+import React, { useState } from "react";
+import { products } from "@/data/products";
+import ProductCard from "@/components/ProductCard";
+
+const categories = [
+  { name: "Tümü" },
+  {
+    name: "Cep Telefonu - Aksesuar",
+    icon: "https://ffo3gv1cf3ir.merlincdn.net/SiteAssets/Cihaz/pasaj/kategori/ceptelefonuaksesuar.png?1758112274000",
+  },
+  {
+    name: "Bilgisayar - Tablet",
+    icon: "https://ffo3gv1cf3ir.merlincdn.net/SiteAssets/Cihaz/pasaj/kategori/bilgisayartablet.png?1758112274000",
+  },
+  {
+    name: "Elektrikli Ev Aletleri",
+    icon: "https://ffo3gv1cf3ir.merlincdn.net/SiteAssets/Cihaz/pasaj/kategori/elektriklievaletleri.png?1758112274000",
+  },
+  {
+    name: "Sağlık - Kişisel Bakım",
+    icon: "https://ffo3gv1cf3ir.merlincdn.net/SiteAssets/Cihaz/pasaj/kategori/saglikkisiselbakim.png?1758112274000",
+  },
+  {
+    name: "Hobi - Oyun",
+    icon: "https://ffo3gv1cf3ir.merlincdn.net/SiteAssets/Cihaz/pasaj/kategori/hobioyun.png?1758112274000",
+  },
+  {
+    name: "TV - Ses Sistemleri",
+    icon: "https://ffo3gv1cf3ir.merlincdn.net/SiteAssets/Cihaz/pasaj/kategori/tvsessistemleri.png?1758112274000",
+  },
+  {
+    name: "Ev - Yaşam",
+    icon: "https://ffo3gv1cf3ir.merlincdn.net/SiteAssets/Cihaz/pasaj/kategori/evyasam.png?1758112274000",
+  },
+];
+
+function normalizeCategory(s?: string) {
+  if (!s) return "";
+  return s.toString().toLowerCase().replace(/[\s-]+/g, "");
+}
+
+export default function BestSellers() {
+  const [activeCategory, setActiveCategory] = useState<string>("Tümü");
+
+  const filteredProducts =
+    activeCategory === "Tümü"
+      ? products
+      : products.filter(
+          (p) => normalizeCategory(p.category) === normalizeCategory(activeCategory)
+        );
+
+  return (
+    <section className="max-w-7xl mx-auto px-4 mt-12">
+      <h2 className="text-2xl font-bold mb-6">En Çok Satanlar</h2>
+
+      {/* Kategori satırı (sabit, scroll yok) */}
+      <div className="flex gap-4 mb-6 flex-wrap">
+        {categories.map((cat) => {
+          const active = activeCategory === cat.name;
+          return (
+            <button
+              key={cat.name}
+              onClick={() => setActiveCategory(cat.name)}
+              className={`flex items-center gap-3 whitespace-nowrap px-3 py-2 transition rounded-md ${
+                active
+                  ? "text-orange-500 border-b-2 border-orange-500"
+                  : "text-gray-700 hover:text-orange-500"
+              }`}
+            >
+              {cat.name !== "Tümü" && cat.icon && (
+                <img src={cat.icon} alt={cat.name} className="w-6 h-6 object-contain" />
+              )}
+              <span className="text-sm font-medium">{cat.name}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Ürünler grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {filteredProducts.map((p) => (
+          // ProductCard sabit genişlikte bir kart olduğu için grid hücresine sığdırmak adına wrapper kullandım.
+          <div key={p.id} className="w-full flex justify-center">
+            <ProductCard product={p} />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+
+

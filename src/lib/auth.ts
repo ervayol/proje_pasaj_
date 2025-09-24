@@ -6,23 +6,13 @@ export type User = {
 
 const STORAGE_KEY = "pasaj_user";
 
-// Demo kullanıcı
-const demoUser = {
-  username: "Erva",
-  identifier: "000000", // telefon ya da email
-  password: "1111",
-};
-
 export function login(
   username: string,
   identifier: string,
   password: string
 ): User | null {
-  if (
-    username === demoUser.username &&
-    identifier === demoUser.identifier &&
-    password === demoUser.password
-  ) {
+  // Boş alan olmasın yeterli
+  if (username && identifier && password) {
     const user = { username, identifier };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
     return user;

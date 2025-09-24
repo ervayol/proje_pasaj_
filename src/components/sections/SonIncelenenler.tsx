@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -73,3 +73,71 @@ export default function SonIncelenenler() {
     </section>
   );
 }
+*/
+
+
+// src/components/sections/SonIncelenenler.tsx
+"use client";
+import React, { useEffect, useState } from "react";
+import ProductCard from "@/components/ProductCard";
+
+export type RecentlyViewedItem = {
+  id: string | string[];
+  name: string;
+  image: string;
+};
+
+export function addToRecentlyViewed(item: RecentlyViewedItem) {
+  if (typeof window === "undefined") return;
+  const existing = localStorage.getItem("recentlyViewed");
+  let items: RecentlyViewedItem[] = existing ? JSON.parse(existing) : [];
+  items = items.filter((p) => p.id !== item.id);
+  items.unshift(item);
+  if (items.length > 10) items = items.slice(0, 10);
+  localStorage.setItem("recentlyViewed", JSON.stringify(items));
+}
+
+export default function SonIncelenenler() {
+  const [items, setItems] = useState<RecentlyViewedItem[]>([]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const stored = localStorage.getItem("recentlyViewed");
+    if (stored) {
+      try {
+        const parsed: RecentlyViewedItem[] = JSON.parse(stored);
+        setItems(parsed);
+      } catch (e) {
+        console.error("Son incelenenler okunamadı", e);
+      }
+    }
+  }, []);
+
+  if (items.length === 0) return null;
+
+  return (
+    <section className="w-full max-w-7xl mx-auto px-4 py-10">
+      <h2 className="text-2xl font-bold mb-6">Son İncelenenler</h2>
+      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+        {items.map((item) => (
+          <ProductCard
+            key={item.id.toString()}
+            product={{
+              id: item.id.toString(),
+              name: item.name,
+              category: "",
+              description: "",
+              price: "", // fiyat yok
+              image: item.image,
+            }}
+          />
+        ))}
+      </div>
+    </section>
+  );
+
+
+}
+
+
+
